@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { login } from '../actions';
@@ -81,6 +82,9 @@ const mapDispatchToProps = (dispatch) => ({
   loginAction: (state) => dispatch(login(state)),
 });
 
-Login.propTypes = {}.isRequired;
+Login.propTypes = {
+  loginAction: PropTypes.any,
+  history: PropTypes.any,
+}.isRequired;
 
 export default connect(null, mapDispatchToProps)(Login);

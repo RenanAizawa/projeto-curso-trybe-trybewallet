@@ -9,7 +9,7 @@ const myUser = (state = INITIAL_USER, action) => {
   case 'LOGIN':
     return {
       user: {
-        email: action.email,
+        ...action.state,
       },
     };
   default:
