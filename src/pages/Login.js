@@ -14,7 +14,7 @@ class Login extends React.Component {
   }
 
   validateEmail = (email) => email
-    .match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+    .match(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g);
 
   handleLogin = (e) => {
     const { name, value } = e.target;
@@ -34,7 +34,7 @@ class Login extends React.Component {
   loginAction = () => {
     const { email } = this.state;
     const { loginAction, history } = this.props;
-    loginAction({ email });
+    loginAction( email );
     history.push('/carteira');
   }
 

@@ -1,20 +1,18 @@
 const INITIAL_USER = {
-  user: {
-    email: '',
-  },
+
+  email: '',
+
 };
 
-const myUser = (state = INITIAL_USER, action) => {
+const user = (state = INITIAL_USER, action) => {
   switch (action.type) {
   case 'LOGIN':
     return {
-      user: {
-        ...action.state,
-      },
+      email: action.state,
     };
   default:
     return state;
   }
 };
 
-export default myUser;
+export default user;
