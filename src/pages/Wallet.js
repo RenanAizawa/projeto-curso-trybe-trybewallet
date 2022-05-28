@@ -2,7 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
+import Form from '../components/Form';
 import Header from '../components/Header';
+import TabelaDeControle from '../components/TabelaDeControle';
 
 class Wallet extends React.Component {
   componentDidMount() {
@@ -14,7 +16,9 @@ class Wallet extends React.Component {
     return (
       <div className="main-body">
         <Header />
-        aplicativo em construção
+        <Form />
+        <hr />
+        <TabelaDeControle />
       </div>
     );
   }
