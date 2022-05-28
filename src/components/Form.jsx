@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
+import * as actions from '../actions';
 import * as help from './helper';
 
 class Form extends React.Component {
@@ -11,6 +12,8 @@ class Form extends React.Component {
       tag: '',
       description: '',
       currency: '',
+      id: 0,
+      value: '',
     };
   }
 
@@ -50,19 +53,53 @@ class Form extends React.Component {
     }
   }
 
+  saveDispesa = async () => {
+    const { method, tag, currency, description, id, value } = this.state;
+    const { addDespesa } = this.props;
+    const response = await fetch('https://economia.awesomeapi.com.br/json/all');
+    const data = await response.json();
+    const novaDespesa = {
+      id,
+      value,
+      description,
+      currency,
+      method,
+      tag,
+      exchangeRates: data,
+    };
+    addDespesa(novaDespesa);
+    this.setState((prevS) => ({
+      id: prevS.id + 1,
+      value: 0,
+      description: '',
+      currency: 'USD',
+      method: 'Dinheiro',
+      tag: 'Alimentação',
+    }));
+  }
+
   render() {
+    const { value, description, currency, method, tag } = this.state;
     return (
       <div>
         <form>
           <label htmlFor="valor">
             Valor:
-            <input type="number" id="valor" data-testid="value-input" />
+            <input
+              type="number"
+              id="valor"
+              data-testid="value-input"
+              name="value"
+              value={ value }
+              onChange={ (e) => this.handleForm(e) }
+            />
           </label>
           <label htmlFor="coins">
             Moeda:
             <select
               id="coins"
               name="currency"
+              value={ currency }
               onChange={ (e) => this.handleForm(e) }
             >
               {this.coins()}
@@ -73,6 +110,7 @@ class Form extends React.Component {
             <select
               id="payout"
               name="method"
+              value={ method }
               onChange={ (e) => this.handleForm(e) }
               data-testid="method-input"
             >
@@ -84,6 +122,7 @@ class Form extends React.Component {
             <select
               id="category"
               name="tag"
+              value={ tag }
               onChange={ (e) => this.handleForm(e) }
               data-testid="tag-input"
             >
@@ -96,11 +135,15 @@ class Form extends React.Component {
               type="text"
               id="description"
               name="description"
+              value={ description }
               onChange={ (e) => this.handleForm(e) }
               data-testid="description-input"
             />
           </label>
-          <button type="button">
+          <button
+            type="button"
+            onClick={ () => this.saveDispesa() }
+          >
             Adicionar despesa
           </button>
         </form>
@@ -113,8 +156,12 @@ const mapStateToProps = (state) => ({
   moedas: state.wallet.currencies,
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  addDespesa: (state) => dispatch(actions.addNewDespesa(state)),
+});
+
 Form.propTypes = {
   moedas: PropTypes.array,
 }.isReuired;
 
-export default connect(mapStateToProps)(Form);
+export default connect(mapStateToProps, mapDispatchToProps)(Form);

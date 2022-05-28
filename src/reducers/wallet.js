@@ -10,6 +10,11 @@ const wallet = (state = INITIAL_USER, action) => {
       ...state,
       currencies: action.state,
     };
+  case 'NEW_DESPESA':
+    return {
+      ...state,
+      expenses: [...state.expenses, action.despesa],
+    };
   default:
     return state;
   }

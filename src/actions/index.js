@@ -12,3 +12,5 @@ export const fetchCurrency = () => async (dispatch) => {
     console.log(error);
   }
 };
+
+export const addNewDespesa = (state) => ({ type: 'NEW_DESPESA', despesa: state });
